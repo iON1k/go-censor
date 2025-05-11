@@ -29,18 +29,18 @@ func (api *API) Router() *mux.Router {
 }
 
 func (api *API) endpoints() {
-	api.router.HandleFunc("/validate", api.validate).Methods(http.MethodPost)
+	api.router.Methods(http.MethodPost).Path("/comments/validate").HandlerFunc(api.validate)
 }
 
 func (api *API) validate(w http.ResponseWriter, r *http.Request) {
-	var req models.Content
+	var req models.Comment
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		http.Error(w, "Body decoding error", http.StatusBadRequest)
 		return
 	}
 
-	if !api.censor.Validate(req.Text) {
+	if !api.censor.Validate(req.Content) {
 		http.Error(w, "Bad words were found", http.StatusBadRequest)
 	}
 }

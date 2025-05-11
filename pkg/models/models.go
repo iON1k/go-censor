@@ -1,6 +1,6 @@
 package models
 
-// Модель с текстом для проверки
-type Content struct {
-	Text string `json:"Text"` // текст
+// Модель комментария
+type Comment struct {
+	Content string `json:"content"` // текст комментария
 }

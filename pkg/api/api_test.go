@@ -17,13 +17,13 @@ func setup(_ *testing.T) TestContext {
 	return TestContext{api}
 }
 
-func TestGoodContent(t *testing.T) {
+func TestCommentsValidateWithGoodContent(t *testing.T) {
 	ctx := setup(t)
 
 	req_json := `
-	{"text":"Test"}
+	{"content":"Test"}
 	`
-	req := httptest.NewRequest(http.MethodPost, "/validate", strings.NewReader(req_json))
+	req := httptest.NewRequest(http.MethodPost, "/comments/validate", strings.NewReader(req_json))
 	resp := httptest.NewRecorder()
 	ctx.api.router.ServeHTTP(resp, req)
 
@@ -32,13 +32,13 @@ func TestGoodContent(t *testing.T) {
 	}
 }
 
-func TestBadContent(t *testing.T) {
+func TestCommentsValidateWithBadContent(t *testing.T) {
 	ctx := setup(t)
 
 	req_json := `
-	{"text":"qwerty"}
+	{"content":"qwerty"}
 	`
-	req := httptest.NewRequest(http.MethodPost, "/validate", strings.NewReader(req_json))
+	req := httptest.NewRequest(http.MethodPost, "/comments/validate", strings.NewReader(req_json))
 	resp := httptest.NewRecorder()
 	ctx.api.router.ServeHTTP(resp, req)
 
